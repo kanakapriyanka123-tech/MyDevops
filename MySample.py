@@ -6,9 +6,9 @@ PORT = 8000
 class MyHandler(SimpleHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
-        self.send_header("Content-type", "text/html")
+        self.send_header("Content-type", "text/html; charset=utf-8")
         self.end_headers()
-        self.wfile.write(b"""
+        self.wfile.write("""
         <html>
             <head><title>My DevOps Page</title></head>
             <body>
@@ -16,7 +16,7 @@ class MyHandler(SimpleHTTPRequestHandler):
                 <p>This page is served using Python.</p>
             </body>
         </html>
-        """)
+        """.encode("utf-8"))  # encode to bytes for the web response
 
 with HTTPServer(("", PORT), MyHandler) as server:
     print(f"Server running on port {PORT}")
