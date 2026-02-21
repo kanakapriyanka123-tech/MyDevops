@@ -1,23 +1,11 @@
 print("Hello..Devops")
-from http.server import SimpleHTTPRequestHandler, HTTPServer
+from flask import Flask
 
-PORT = 8000
+app = Flask(__name__)
 
-class MyHandler(SimpleHTTPRequestHandler):
-    def do_GET(self):
-        self.send_response(200)
-        self.send_header("Content-type", "text/html; charset=utf-8")
-        self.end_headers()
-        self.wfile.write("""
-        <html>
-            <head><title>My DevOps Page</title></head>
-            <body>
-                <h1>Hello from Jenkins CI 🚀</h1>
-                <p>This page is served using Python.</p>
-            </body>
-        </html>
-        """.encode("utf-8"))  # encode to bytes for the web response
+@app.route("/")
+def home():
+    return "Hello, this is my first Jenkins Python web app!"
 
-with HTTPServer(("", PORT), MyHandler) as server:
-    print(f"Server running on port {PORT}")
-    server.serve_forever()
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
